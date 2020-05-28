@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<form action="/finance/editFinanceTrue" method="post" class="layui-form" lay-filter="example">
+    <div class="layui-form layuimini-form">
+        <input name="fId" type="hidden" value="">
+        <div class="layui-form-item">
+            <label class="layui-form-label required">支出金额</label>
+            <div class="layui-input-block">
+                <input type="text" name="fMoney" lay-verify="required" lay-reqtext="金额不能为空" placeholder="请输入车辆名称"
+                       value="" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">支出类型</label>
+            <div class="layui-input-block">
+                <select name="fType" lay-verify="required" lay-search="" id="cCarId">
+                    <option value="">直接选择或搜索选择</option>
+                    <option value="保养费">保养费</option>
+                    <option value="修车费">修车费</option>
+                    <option value="店面费">店面费</option>
+                    <option value="人员工资">人员工资</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">支出时间</label>
+            <div class="layui-input-block">
+                <input type="text" id="fDate" name="fDate" lay-verify="required" lay-reqtext="时间不能为空" placeholder="请输入车辆名称"
+                       value="" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">支出详情</label>
+            <div class="layui-input-block">
+                <input type="text" name="fContent" lay-verify="required" placeholder="请输入详情"
+                       value="" class="layui-input">
+                <!--            <tip>填写自己管理账号的名称。</tip>-->
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <input type="submit" class="layui-btn layui-btn-normal"
+                       lay-filter="saveBtn" id="saveBtn" value="确认保存">
+            </div>
+        </div>
+    </div>
+</form>
+
+<script src="../../lib/jquery-3.4.1/jquery-3.4.1.min.js" charset="utf-8"></script>
+<script src="../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            layedit = layui.layedit,
+            laydate = layui.laydate,
+            $ = layui.$;
+
+        var url=location.search;
+        var fId;
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+
+
+            fId = decodeURIComponent(str.replace("fId=",""));
+
+        }
+        //表单初始赋值
+        $.post("/finance/editFinance", { fId: fId }, function (data) {
+            // console.log(data);
+
+            $('#fType').val(data.fType);
+            form.val('example', data);
+        });
+
+    });
+
+    var index = parent.layer.getFrameIndex(window.name);
+
+    $('#saveBtn').click(function () {
+        parent.layer.close(index);
+    })
+</script>
+
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期时间选择器
+        laydate.render({
+            elem: '#fDate'
+            , type: 'datetime'
+            , done: function (value, date, endDate) {
+                // layer.alert(value); //得到日期生成的值，如：2017-08-18
+
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

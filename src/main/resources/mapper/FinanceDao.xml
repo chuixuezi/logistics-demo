@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.logisticsdemo.dao.FinanceDao">
+
+    <select id="selAllFinance" resultType="Map">
+        select * from s_finance
+    </select>
+
+    <select id="selFinanceCount" resultType="int">
+        select count(fId) from s_finance
+    </select>
+
+    <insert id="addFinance">
+        insert into s_finance values (null,#{fDate},#{fMoney},#{fType},#{fContent})
+    </insert>
+
+    <delete id="someDel">
+        <![CDATA[
+                    delete from s_finance  where fId in
+        ]]>
+        <foreach collection="array" item="fId" separator="," open="(" close=")">
+            #{fId}
+        </foreach>
+    </delete>
+
+    <delete id="delFinance" parameterType="int">
+        <![CDATA[
+                    delete from s_finance  where fId = #{fId}
+        ]]>
+    </delete>
+
+    <select id="getFinance" resultType="sfinance">
+        select * from s_finance where fId=#{fId}
+    </select>
+
+    <update id="editFinance">
+        update s_finance set fDate=#{fDate},fMoney=#{fMoney},fType=#{fType},fContent=#{fContent} where fId=#{fId}
+    </update>
+
+    <select id="selExpend" resultType="map">
+        select SUM(fMoney) expend,DATE_FORMAT(fDate,'%Y%m') fDate from s_finance group by DATE_FORMAT(fDate,'%Y%m')
+    </select>
+</mapper>

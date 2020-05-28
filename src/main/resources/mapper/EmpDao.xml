@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.logisticsdemo.dao.EmpDao">
+
+    <select id="selAllEmp" resultType="Map">
+        select * from s_emp
+    </select>
+
+    <select id="selEmpCount" resultType="int">
+        select count(sId) from s_emp
+    </select>
+
+    <insert id="addEmp">
+        insert into s_emp values (null,#{sName},#{sAccount},#{sPassword},#{sPosition},#{sCardId},#{sFace})
+    </insert>
+
+    <delete id="someDel">
+        <![CDATA[
+                    delete from s_emp  where sId in
+        ]]>
+        <foreach collection="array" item="sId" separator="," open="(" close=")">
+            #{sId}
+        </foreach>
+    </delete>
+
+    <delete id="delEmp" parameterType="int">
+        <![CDATA[
+                    delete from s_emp  where sId = #{sId}
+        ]]>
+    </delete>
+
+    <select id="getEmp" resultType="semp">
+        select * from s_emp where sId=#{sId}
+    </select>
+
+    <update id="editEmp">
+        update s_emp set sName=#{sName},sAccount=#{sAccount},sPassword=#{sPassword},sCardId=#{sCardId},sPosition=#{sPosition},sFace=#{sFace} where sId=#{sId}
+    </update>
+
+    <select id="login" resultType="semp">
+        select * from s_emp where sAccount=#{sAccount} and sPassword=#{sPassword}
+    </select>
+
+</mapper>

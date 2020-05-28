@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<form action="/waybill/editWaybillTrue" method="post" class="layui-form" lay-filter="example">
+    <div class="layui-form layuimini-form">
+        <input type="hidden" name="wId" value="">
+        <div class="layui-form-item">
+            <label class="layui-form-label required">客户名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="wName" lay-verify="required" lay-reqtext="名称不能为空" placeholder="请输入车辆名称"
+                       value="" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">客户电话</label>
+            <div class="layui-input-block">
+                <input type="text" name="wPhone" lay-verify="required" lay-reqtext="电话不能为空" placeholder="请输入车牌号"
+                       value=""
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">货物类型</label>
+            <div class="layui-input-block">
+                <input type="text" name="wType" lay-verify="required" placeholder="请输入类型" value=""
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">货物重量</label>
+            <div class="layui-input-block">
+                <input type="text" name="wWeight" lay-verify="required" placeholder="请输入重量 /kg" value=""
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">货物体积</label>
+            <div class="layui-input-block">
+                <input type="text" name="wVolume" lay-verify="required" placeholder="请输入体积 /立方" value=""
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">起始地</label>
+            <div class="layui-input-block">
+                <input type="text" name="wStart_place" lay-verify="required" placeholder="请输入起始地" value=""
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">目的地</label>
+            <div class="layui-input-block">
+                <input type="text" name="wEnd_place" lay-verify="required" placeholder="请输入目的地" value=""
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">车牌号</label>
+            <div class="layui-input-block">
+                <select name="cCarId" lay-verify="required" lay-search="" id="cCarId">
+                    <option value="">直接选择或搜索选择</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">运费</label>
+            <div class="layui-input-block">
+                <input type="text" name="wFare" lay-verify="required" placeholder="请输入运费" value=""
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">司机</label>
+            <div class="layui-input-block">
+                <select name="wDriver" lay-verify="required" lay-search="" id="wDriver">
+                    <option value="">直接选择或搜索选择</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" required>下单时间</label>
+            <div class="layui-input-block">
+                <input type="text" id="wOrder_time" name="wOrder_time" placeholder="请选择" value="" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" required>支付时间</label>
+            <div class="layui-input-block">
+                <input type="text" id="wPayOver_time" name="wPayOver_time" placeholder="请选择" value=""
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" required>支付类型</label>
+            <div class="layui-input-block">
+                <input type="text" name="wPayType" placeholder="请键入" value="" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" required>装货时间</label>
+            <div class="layui-input-block">
+                <input type="text" id="wLoad_time" name="wLoad_time" placeholder="请选择" value="" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" required>到达时间</label>
+            <div class="layui-input-block">
+                <input type="text" id="wGet_time" name="wGet_time" placeholder="请选择" value="" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" required>卸货时间</label>
+            <div class="layui-input-block">
+                <input type="text" id="wUnload_time" name="wUnload_time" placeholder="请选择" value="" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" required>返回时间</label>
+            <div class="layui-input-block">
+                <input type="text" id="wExit_time" name="wExit_time" placeholder="请选择" value="" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">订单状态</label>
+            <div class="layui-input-block">
+                <select name="wState" lay-verify="required" lay-search="" id="wState">
+                    <option value="">直接选择或搜索选择</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <input type="submit" class="layui-btn layui-btn-normal"
+                       lay-filter="saveBtn" id="saveBtn" value="确认保存">
+            </div>
+        </div>
+    </div>
+</form>
+
+<script src="../../lib/jquery-3.4.1/jquery-3.4.1.min.js" charset="utf-8"></script>
+<script src="../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            layedit = layui.layedit,
+            laydate = layui.laydate,
+            $ = layui.$;
+
+        var url = location.search;
+        var wId;
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+
+
+            wId = decodeURIComponent(str.replace("wId=", ""));
+
+        }
+        $.post("/waybill/getOption", {wId: wId}, function (data) {
+             // console.log(data);
+            $.each(data.carId, function (index, obj) {
+                var cCarId = document.getElementById("cCarId");
+                // console.log(obj);
+                var op = document.createElement("option");
+                op.setAttribute("value", obj.cCarId);
+                op.appendChild(document.createTextNode(obj.cCarId));
+                cCarId.appendChild(op);
+                // console.log(data.walbill.cCarId)
+            });
+            $('#cCarId').val(data.waybill.cCarId);
+            $.each(data.driver, function (index, obj) {
+                var wDriver = document.getElementById("wDriver");
+                // console.log(obj);
+                var op = document.createElement("option");
+                op.setAttribute("value", obj.sName);
+                op.appendChild(document.createTextNode(obj.sName));
+                wDriver.appendChild(op);
+            });
+            $('#wDriver').val(data.waybill.wDriver);
+            $.each(data.wState, function (index, obj) {
+                var wState = document.getElementById("wState");
+                // console.log(obj);
+                var op = document.createElement("option");
+                op.setAttribute("value", obj.state);
+                op.appendChild(document.createTextNode(obj.state));
+                wState.appendChild(op);
+            });
+            $('#wState').val(data.waybill.wState);
+            form.render();//表单重新渲染，要不然添加完显示不出来新的option
+        });
+
+        //表单初始赋值
+        $.post("/waybill/editWaybill", {wId: wId}, function (data) {
+            // console.log(data);
+            form.val('example', data);
+        });
+    });
+
+    var index = parent.layer.getFrameIndex(window.name);
+
+    $('#saveBtn').click(function () {
+        parent.layer.close(index);
+    })
+</script>
+
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期时间选择器
+        laydate.render({
+            elem: '#wOrder_time'
+            , type: 'datetime'
+            , done: function (value, date, endDate) {
+                // layer.alert(value); //得到日期生成的值，如：2017-08-18
+
+            }
+        });
+    });
+</script>
+
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期时间选择器
+        laydate.render({
+            elem: '#wPayOver_time'
+            , type: 'datetime'
+            , done: function (value, date, endDate) {
+                // layer.alert(value); //得到日期生成的值，如：2017-08-18
+
+            }
+        });
+    });
+</script>
+
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期时间选择器
+        laydate.render({
+            elem: '#wLoad_time'
+            , type: 'datetime'
+            , done: function (value, date, endDate) {
+                // layer.alert(value); //得到日期生成的值，如：2017-08-18
+
+            }
+        });
+    });
+</script>
+
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期时间选择器
+        laydate.render({
+            elem: '#wGet_time'
+            , type: 'datetime'
+            , done: function (value, date, endDate) {
+                // layer.alert(value); //得到日期生成的值，如：2017-08-18
+
+            }
+        });
+    });
+</script>
+
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期时间选择器
+        laydate.render({
+            elem: '#wUnload_time'
+            , type: 'datetime'
+            , done: function (value, date, endDate) {
+                // layer.alert(value); //得到日期生成的值，如：2017-08-18
+
+            }
+        });
+    });
+</script>
+
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期时间选择器
+        laydate.render({
+            elem: '#wExit_time'
+            , type: 'datetime'
+            , done: function (value, date, endDate) {
+                // layer.alert(value); //得到日期生成的值，如：2017-08-18
+
+            }
+        });
+    });
+</script>
+
+<script>
+    function upLoad() {
+        var fileInput = document.getElementById("faceUpload");
+        var file = fileInput.files[0];
+        //创建读取文件的对象
+        var reader = new FileReader();
+        //创建文件读取相关的变量
+        var imgFile;
+        //为文件读取成功设置事件
+        reader.onload = function (e) {
+            // alert('文件读取完成');
+            imgFile = e.target.result;
+            console.log(imgFile);
+            $("#carImg").attr('src', imgFile);
+        };
+
+        //正式读取文件
+        reader.readAsDataURL(file);
+    }
+</script>
+</body>
+</html>

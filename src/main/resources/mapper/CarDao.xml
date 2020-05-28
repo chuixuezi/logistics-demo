@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.logisticsdemo.dao.CarDao">
+
+    <select id="selAllCar" resultType="Map">
+        select * from s_cars
+    </select>
+
+    <select id="selCarCount" resultType="int">
+        select count(cId) from s_cars
+    </select>
+
+    <insert id="addCar">
+        insert into s_cars values (null,#{cName},#{cCarId},#{cImg},#{cTonnage},#{cMot},#{cLong},#{cWide},#{cTall},#{cType})
+    </insert>
+
+    <delete id="someDel">
+        <![CDATA[
+                    delete from s_cars  where cId in
+        ]]>
+        <foreach collection="array" item="cId" separator="," open="(" close=")">
+            #{cId}
+        </foreach>
+    </delete>
+
+    <delete id="delCar" parameterType="int">
+        <![CDATA[
+                    delete from s_cars  where cId = #{cId}
+        ]]>
+    </delete>
+
+    <select id="getCar" resultType="scar">
+        select * from s_cars where cId=#{cId}
+    </select>
+
+    <update id="editCar">
+        update s_cars set cName=#{cName},cCarId=#{cCarId},cImg=#{cImg},cTonnage=#{cTonnage},cMot=#{cMot},cLong=#{cLong},cWide=#{cWide},cTall=#{cTall},cType=#{cType} where cId=#{cId}
+    </update>
+</mapper>

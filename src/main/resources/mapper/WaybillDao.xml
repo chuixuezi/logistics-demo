@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.logisticsdemo.dao.WaybillDao">
+
+    <select id="selAllWaybill" resultType="Map">
+        select * from s_waybill
+    </select>
+
+    <select id="selWaybillCount" resultType="int">
+        select count(wId) from s_waybill
+    </select>
+
+    <insert id="addWaybill">
+        insert into s_waybill values (null,#{wName},#{wPhone},#{wType},#{wWeight},#{wVolume},#{wStart_place},#{wEnd_place},#{cCarId},#{wFare},#{wDriver},#{wOrder_time},#{wPayOver_time},#{wPayType},#{wLoad_time},#{wGet_time},#{wUnload_time},#{wExit_time},#{wState})
+    </insert>
+
+    <delete id="someDel">
+        <![CDATA[
+                    delete from s_waybill  where wId in
+        ]]>
+        <foreach collection="array" item="wId" separator="," open="(" close=")">
+            #{wId}
+        </foreach>
+    </delete>
+
+    <delete id="delWaybill" parameterType="int">
+        <![CDATA[
+                    delete from s_waybill  where wId = #{wId}
+        ]]>
+    </delete>
+
+    <select id="getWaybill" resultType="swaybill">
+        select * from s_waybill where wId=#{wId}
+    </select>
+
+    <update id="editWaybill">
+        update s_waybill set wName=#{wName},wPhone=#{wPhone},wType=#{wType},wWeight=#{wWeight},wVolume=#{wVolume},wStart_place=#{wStart_place},wEnd_place=#{wEnd_place},cCarId=#{cCarId},wFare=#{wFare},wDriver=#{wDriver},wOrder_time=#{wOrder_time},wPayOver_time=#{wPayOver_time},wPayType=#{wPayType},wLoad_time=#{wLoad_time},wGet_time=#{wGet_time},wUnload_time=#{wUnload_time},wExit_time=#{wExit_time},wState=#{wState} where wId=#{wId}
+    </update>
+
+    <select id="getDriver" resultType="Map">
+        select sName from s_emp where sPosition='司机'
+    </select>
+
+    <select id="getCarId" resultType="Map">
+        select cCarId from s_cars
+    </select>
+
+    <select id="orderTask" resultType="swaybill">
+        select * from s_waybill where wState='已下单'
+    </select>
+</mapper>

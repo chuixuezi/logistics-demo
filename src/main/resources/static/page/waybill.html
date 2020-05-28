@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">客户姓名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="sName" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">客户电话</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="sPosition" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit
+                                    lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加</button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除</button>
+            </div>
+        </script>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+        </script>
+
+    </div>
+</div>
+<script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+
+        table.render({
+            elem: '#currentTableId',
+            url: '../json/allWaybill',
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [[
+                {type: "checkbox", width: 50},
+                {field: 'wId', width: 80, title: 'ID', sort: true},
+                {field: 'wName', width: 150, title: '客户名称'},
+                {field: 'wPhone', width: 150, title: '客户电话', sort: true},
+                {field: 'wType', width: 150, title: '货物类型'},
+                {field: 'wWeight', width: 150, title: '货物重量'},
+                {field: 'wVolume', width: 150, title: '货物体积'},
+                {field: 'wStart_place', width: 150, title: '起始地'},
+                {field: 'wEnd_place', width: 150, title: '目的地'},
+                {field: 'cCarId', width: 150, title: '车牌号'},
+                {field: 'wFare', width: 150, title: '运费', sort: true},
+                {field: 'wDriver', width: 150, title: '司机', sort: true},
+                {field: 'wOrder_time', width: 150, title: '下单时间', sort: true},
+                {field: 'wPayOver_time', width: 150, title: '支付时间', sort: true},
+                {field: 'wPayType', width: 150, title: '支付类型', sort: true},
+                {field: 'wLoad_time', width: 150, title: '装货时间', sort: true},
+                {field: 'wGet_time', width: 150, title: '到达时间', sort: true},
+                {field: 'wUnload_time', width: 150, title: '卸货时间', sort: true},
+                {field: 'wExit_time', width: 150, title: '返回时间', sort: true},
+                {field: 'wState', width: 150, title: '订单状态', sort: true},
+                {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+            ]],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true,
+            skin: 'line'
+        });
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            var result = JSON.stringify(data.field);
+            layer.alert(result, {
+                title: '最终的搜索信息'
+            });
+
+            //执行搜索重载
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1
+                }
+                , where: {
+                    searchParams: result
+                }
+            }, 'data');
+
+            return false;
+        });
+
+        /**
+         * toolbar监听事件
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'add') {  // 监听添加操作
+                var index = layer.open({
+                    title: '添加订单',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: '../page/table/waybillAdd.html',
+                    end: function () {
+                        location.reload()
+                    }
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            } else if (obj.event === 'delete') {  // 监听删除操作
+                var checkStatus = table.checkStatus('currentTableId')
+                    , data = checkStatus.data;
+                // layer.alert(JSON.stringify(data));
+                var ids;
+                for (var i = 0; i < data.length; i++) {
+                    if (i == 0) {
+                        ids = JSON.stringify(data[i].wId);
+                    } else {
+                        ids += "," + JSON.stringify(data[i].wId);
+                    }
+                }
+                // layer.alert(ids);
+                $.post("/waybill/someDel", {
+                        ids: ids
+                    }
+                    , function (data) {
+                        location.reload()
+                    }, "text");
+
+            }
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+
+            // console.log(obj.data.wId)
+            if (obj.event === 'edit') {
+
+                var index = layer.open({
+                    title: '编辑员工',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: '../page/table/waybillEdit.html?wId=' + obj.data.wId,
+                    end: function () {
+                        location.reload()
+                    }
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    // layer.alert(obj.data.sId);
+                    $.post("/waybill/delWaybill", {
+                            cId: obj.data.cId
+                        }
+                        , function (data) {
+                        }, "text");
+                    layer.close(index);
+                });
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>
